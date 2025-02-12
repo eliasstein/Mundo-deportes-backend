@@ -1,14 +1,18 @@
 import pyrebase
-import os
+import os,json
+from dotenv import dotenv_values
+
+secret=dotenv_values(".env")
 
 fb_config = {
-    "apiKey": os.getenv("APIKEY"), #El [1:-2] es para borrar las comillas y el salto de linea
-    "authDomain": f"{os.getenv("PROJECT_ID")}.firebaseapp.com",
-    "databaseURL":f"https://{os.getenv("PROJECT_ID")}-default-rtdb.firebaseio.com",
-    "projectId": f"{os.getenv("PROJECT_ID")}",
-    "storageBucket": f"{os.getenv("PROJECT_ID")}.appspot.com",
-    "serviceAccount":"firebase.json"
+    "apiKey": secret["APIKEY"], #El [1:-2] es para borrar las comillas y el salto de linea
+    "authDomain": f"{secret["PROJECT_ID"]}.firebaseapp.com",
+    "databaseURL":f"https://{secret["PROJECT_ID"]}-default-rtdb.firebaseio.com",
+    "projectId": f"{secret["PROJECT_ID"]}",
+    "storageBucket": f"{secret["PROJECT_ID"]}.appspot.com",
+    "serviceAccount":json.loads(secret["FIREBASE_CONFIG"])
 }
+print(secret)
 fb=pyrebase.initialize_app(fb_config)
 auth=fb.auth()
 db=fb.database()
