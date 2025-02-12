@@ -1,8 +1,10 @@
 import pyrebase
 import os,json
-from dotenv import dotenv_values
+from dotenv import load_dotenv
+import base64
 
-secret=dotenv_values(".env")["FIREBASE_CONFIG"]
+load_dotenv()
+secret=base64.b64decode(os.getenv("FIREBASE_CONFIG")).decode("utf-8")
 
 fb_config = {
     "apiKey": os.getenv("APIKEY"), #El [1:-2] es para borrar las comillas y el salto de linea
