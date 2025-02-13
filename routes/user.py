@@ -36,24 +36,34 @@ def read_root(user_login:usermodel.login):
 
     resp.headers.append("set-cookie",f"usrnm={usrdata["data"]["username"]};"+
                                            "Max-Age=3600;"+
-                                           "Path=/;")
+                                           "Path=/;"+
+                                           "SameSite=None;"+
+                                           "Secure;"+
+                                           "Partitioned;")    
+    
     resp.headers.append("set-cookie",f"localId={user["localId"]};"+
                                            "Max-Age=3600;"+
-                                           "Path=/;")
-
+                                           "Path=/;"+
+                                           "SameSite=None;"+
+                                           "Secure;"+
+                                           "Partitioned;")
 
     resp.headers.append("set-cookie",f"idToken={user["idToken"]};"+
-                                           f"Max-Age=3600;"+
-                                           f"Path=/;")
-
+                                           "Max-Age=3600;"+
+                                           "Path=/;"+
+                                           "SameSite=None;"+
+                                           "Secure;"+
+                                           "Partitioned;")
     
     # resp.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
     # resp.set_cookie(key="localId",value=user["localId"], max_age=3600,secure=True,samesite="None")
     # resp.set_cookie(key="idToken",value=user["idToken"], max_age=3600,secure=True,samesite="None")
     if user_login.remember:
         resp.headers.append("set-cookie",f"refreshToken={user["refreshToken"]};"+
-                                        f"Path=/;")
-
+                                           "Path=/;"+
+                                           "SameSite=None;"+
+                                           "Secure;"+
+                                           "Partitioned;")
         # resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
     return resp
 
