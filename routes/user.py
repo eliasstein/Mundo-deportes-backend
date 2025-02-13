@@ -38,13 +38,11 @@ def read_root(user_login:usermodel.login):
                                            "Max-Age=3600;"+
                                            "Path=/;"+
                                            "SameSite=None;"+
-                                           "Secure;"+
                                            "Partitioned;")
     resp.headers.append("set-cookie",f"localId={user["localId"]};"+
                                            "Max-Age=3600;"+
                                            "Path=/;"+
                                            "SameSite=None;"+
-                                           "Secure;"+
                                            "Partitioned;")
 
 
@@ -52,7 +50,6 @@ def read_root(user_login:usermodel.login):
                                            f"Max-Age=3600;"+
                                            f"Path=/;"+
                                            f"SameSite=None;"+
-                                           f"Secure;"+
                                            f"Partitioned;")
 
     
@@ -63,7 +60,6 @@ def read_root(user_login:usermodel.login):
         resp.headers.append("set-cookie",f"refreshToken={user["refreshToken"]};"+
                                         f"Path=/;"+
                                         f"SameSite=None;"+
-                                        f"Secure;"+
                                         f"Partitioned;")
 
         # resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
