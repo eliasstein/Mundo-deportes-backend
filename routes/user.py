@@ -30,14 +30,41 @@ def read_root(user_login:usermodel.login):
         user=fb.auth.sign_in_with_email_and_password(user_login.email,user_login.password)
     except:
         return JSONResponse(content={"error":"Usuario o contraseña incorrectos"},status_code=406)
-    resp=Response(status_code=204)
     
+    resp=Response(status_code=204)
     usrdata=json.loads(find_user_by_id(user["localId"]).body)
-    resp.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
-    resp.set_cookie(key="localId",value=user["localId"], max_age=3600,secure=True,samesite="None")
-    resp.set_cookie(key="idToken",value=user["idToken"], max_age=3600,secure=True,samesite="None")
+
+    resp.headers.append("set-cookie",f"usrnm={usrdata["data"]["username"]};"+
+                                           "Max-Age=3600;"+
+                                           "Path=/;"+
+                                           "SameSite=None;"+
+                                           "Secure;"+
+                                           "Partitioned;")
+                                           
+    resp.headers.append("set-cookie",f"localId={user["localId"]};"+
+                                           "Max-Age=3600;"+
+                                           "Path=/;"+
+                                           "SameSite=None;"+
+                                           "Secure;"+
+                                           "Partitioned;")
+
+    resp.headers.append("set-cookie",f"idToken={user["idToken"]};"+
+                                           f"Max-Age=3600;"+
+                                           f"Path=/;"+
+                                           f"SameSite=None;"+
+                                           f"Secure;"+
+                                           f"Partitioned;")
+    
+    # resp.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
+    # resp.set_cookie(key="localId",value=user["localId"], max_age=3600,secure=True,samesite="None")
+    # resp.set_cookie(key="idToken",value=user["idToken"], max_age=3600,secure=True,samesite="None")
     if user_login.remember:
-        resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
+        resp.headers.append("set-cookie",f"refreshToken={user["refreshToken"]};"+
+                                        f"Path=/;"+
+                                        f"SameSite=None;"+
+                                        f"Secure;"+
+                                        f"Partitioned;")
+        # resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
     return resp
 
 
