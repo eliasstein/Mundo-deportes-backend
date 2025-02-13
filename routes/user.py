@@ -39,21 +39,26 @@ def read_root(user_login:usermodel.login):
                                            "Path=/;"+
                                            "SameSite=None;"+
                                            "Secure;"+
-                                           "Partitioned;")
+                                           "Partitioned;"+
+                                           "Domain=eliasstein.github.io;")
                                            
     resp.headers.append("set-cookie",f"localId={user["localId"]};"+
                                            "Max-Age=3600;"+
                                            "Path=/;"+
                                            "SameSite=None;"+
                                            "Secure;"+
-                                           "Partitioned;")
+                                           "Partitioned;"+
+                                           "Domain=eliasstein.github.io;")
+
 
     resp.headers.append("set-cookie",f"idToken={user["idToken"]};"+
                                            f"Max-Age=3600;"+
                                            f"Path=/;"+
                                            f"SameSite=None;"+
                                            f"Secure;"+
-                                           f"Partitioned;")
+                                           f"Partitioned;"+
+                                           "Domain=eliasstein.github.io;")
+
     
     # resp.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
     # resp.set_cookie(key="localId",value=user["localId"], max_age=3600,secure=True,samesite="None")
@@ -63,7 +68,9 @@ def read_root(user_login:usermodel.login):
                                         f"Path=/;"+
                                         f"SameSite=None;"+
                                         f"Secure;"+
-                                        f"Partitioned;")
+                                        f"Partitioned;"+
+                                        "Domain=eliasstein.github.io;")
+
         # resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
     return resp
 
@@ -101,10 +108,10 @@ def refresh_token(request:Request):
         raise HTTPException(status_code=401, detail="Ha ocurrido un error")
     res=Response(status_code=200)
     usrdata=json.loads(find_user_by_id(user["userId"]).body)
-    res.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
+    #res.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
 
-    res.set_cookie(key="localId",value=user["userId"], max_age=3600,secure=True,samesite="None")
-    res.set_cookie(key="idToken",value=user["idToken"], max_age=3600,secure=True,samesite="None")
-    res.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
+    #res.set_cookie(key="localId",value=user["userId"], max_age=3600,secure=True,samesite="None")
+    #res.set_cookie(key="idToken",value=user["idToken"], max_age=3600,secure=True,samesite="None")
+    #res.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
 
     return res
