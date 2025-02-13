@@ -33,11 +33,11 @@ def read_root(user_login:usermodel.login):
     resp=Response(status_code=204)
     
     usrdata=json.loads(find_user_by_id(user["localId"]).body)
-    resp.set_cookie(key="usrnm",value=usrdata["data"]["username"],secure=True, samesite="None")
-    resp.set_cookie(key="localId",value=user["localId"],secure=True, samesite="None")
-    resp.set_cookie(key="idToken",value=user["idToken"],secure=True, samesite="None")
+    resp.set_cookie(key="usrnm",value=usrdata["data"]["username"],secure=True, samesite="None",httponly=True)
+    resp.set_cookie(key="localId",value=user["localId"],secure=True, samesite="None",httponly=True)
+    resp.set_cookie(key="idToken",value=user["idToken"],secure=True, samesite="None",httponly=True)
     if user_login.remember:
-        resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True, samesite="None")
+        resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True, samesite="None",httponly=True)
     return resp
 
 
@@ -74,10 +74,10 @@ def refresh_token(request:Request):
         raise HTTPException(status_code=401, detail="Ha ocurrido un error")
     res=Response(status_code=200)
     usrdata=json.loads(find_user_by_id(user["userId"]).body)
-    res.set_cookie(key="usrnm",value=usrdata["data"]["username"],secure=True, samesite="None")
+    res.set_cookie(key="usrnm",value=usrdata["data"]["username"],secure=True, samesite="None",httponly=True)
 
-    res.set_cookie(key="localId",value=user["userId"],secure=True, samesite="None")
-    res.set_cookie(key="idToken",value=user["idToken"],secure=True, samesite="None")
-    res.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True, samesite="None")
+    res.set_cookie(key="localId",value=user["userId"],secure=True, samesite="None",httponly=True)
+    res.set_cookie(key="idToken",value=user["idToken"],secure=True, samesite="None",httponly=True)
+    res.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True, samesite="None",httponly=True)
 
     return res
