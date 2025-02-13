@@ -31,41 +31,68 @@ def read_root(user_login:usermodel.login):
     except:
         return JSONResponse(content={"error":"Usuario o contraseña incorrectos"},status_code=406)
     
-    resp=Response(status_code=204)
+    # resp=Response(status_code=204)
     usrdata=json.loads(find_user_by_id(user["localId"]).body)
 
-    resp.headers.append("set-cookie",f"usrnm={usrdata["data"]["username"]};"+
-                                           "Max-Age=3600;"+
-                                           "Path=/;"+
-                                           "SameSite=None;"+
-                                           "Secure;"+
-                                           "Partitioned;")    
-    
-    resp.headers.append("set-cookie",f"localId={user["localId"]};"+
-                                           "Max-Age=3600;"+
-                                           "Path=/;"+
-                                           "SameSite=None;"+
-                                           "Secure;"+
-                                           "Partitioned;")
+    # resp.headers.append("set-cookie",f"usrnm={usrdata["data"]["username"]};"+
+    #                                        "Max-Age=3600;"+
+    #                                        "Path=/;"+
+    #                                        "SameSite=None;"+
+    #                                        "Secure;"+
+    #                                        "Partitioned;")
+                                           
+    # resp.headers.append("set-cookie",f"localId={user["localId"]};"+
+    #                                        "Max-Age=3600;"+
+    #                                        "Path=/;"+
+    #                                        "SameSite=None;"+
+    #                                        "Secure;"+
+    #                                        "Partitioned;")
 
-    resp.headers.append("set-cookie",f"idToken={user["idToken"]};"+
+    # resp.headers.append("set-cookie",f"idToken={user["idToken"]};"+
+    #                                        f"Max-Age=3600;"+
+    #                                        f"Path=/;"+
+    #                                        f"SameSite=None;"+
+    #                                        f"Secure;"+
+    #                                        f"Partitioned;")
+    
+    # if user_login.remember:
+    #     resp.headers.append("set-cookie",f"refreshToken={user["refreshToken"]};"+
+    #                                     f"Path=/;"+
+    #                                     f"SameSite=None;"+
+    #                                     f"Secure;"+
+    #                                     f"Partitioned;")
+        # resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
+    # return resp
+
+    content={"usrnm":(f"usrnm={usrdata["data"]["username"]};"+
                                            "Max-Age=3600;"+
                                            "Path=/;"+
                                            "SameSite=None;"+
                                            "Secure;"+
-                                           "Partitioned;")
-    
-    # resp.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
-    # resp.set_cookie(key="localId",value=user["localId"], max_age=3600,secure=True,samesite="None")
-    # resp.set_cookie(key="idToken",value=user["idToken"], max_age=3600,secure=True,samesite="None")
-    if user_login.remember:
-        resp.headers.append("set-cookie",f"refreshToken={user["refreshToken"]};"+
+                                           "Partitioned;"),
+
+                "localId":(f"localId={user["localId"]};"+
+                                           "Max-Age=3600;"+
                                            "Path=/;"+
                                            "SameSite=None;"+
                                            "Secure;"+
-                                           "Partitioned;")
-        # resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
-    return resp
+                                           "Partitioned;"),
+        
+                "idToken":(f"idToken={user["idToken"]};"+
+                                           f"Max-Age=3600;"+
+                                           f"Path=/;"+
+                                           f"SameSite=None;"+
+                                           f"Secure;"+
+                                           f"Partitioned;")
+                                           }
+    if user_login.remember:
+        content["refreshToken"]=(f"refreshToken={user["refreshToken"]};"+
+                                 f"Path=/;"+
+                                 f"SameSite=None;"+
+                                 f"Secure;"+
+                                 f"Partitioned;")
+
+    return JSONResponse(content=content,status_code=200)
 
 
 @router.get("/info/{id}")
@@ -101,10 +128,10 @@ def refresh_token(request:Request):
         raise HTTPException(status_code=401, detail="Ha ocurrido un error")
     res=Response(status_code=200)
     usrdata=json.loads(find_user_by_id(user["userId"]).body)
-    #res.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
+    res.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
 
-    #res.set_cookie(key="localId",value=user["userId"], max_age=3600,secure=True,samesite="None")
-    #res.set_cookie(key="idToken",value=user["idToken"], max_age=3600,secure=True,samesite="None")
-    #res.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
+    res.set_cookie(key="localId",value=user["userId"], max_age=3600,secure=True,samesite="None")
+    res.set_cookie(key="idToken",value=user["idToken"], max_age=3600,secure=True,samesite="None")
+    res.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
 
     return res
