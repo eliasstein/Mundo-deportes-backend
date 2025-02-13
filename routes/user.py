@@ -37,20 +37,17 @@ def read_root(user_login:usermodel.login):
     resp.headers.append("set-cookie",f"usrnm={usrdata["data"]["username"]};"+
                                            "Max-Age=3600;"+
                                            "Path=/;"+
-                                           "SameSite=None;"+
-                                           "Partitioned;")
+                                           "SameSite=None;")
     resp.headers.append("set-cookie",f"localId={user["localId"]};"+
                                            "Max-Age=3600;"+
                                            "Path=/;"+
-                                           "SameSite=None;"+
-                                           "Partitioned;")
+                                           "SameSite=None;")
 
 
     resp.headers.append("set-cookie",f"idToken={user["idToken"]};"+
                                            f"Max-Age=3600;"+
                                            f"Path=/;"+
-                                           f"SameSite=None;"+
-                                           f"Partitioned;")
+                                           f"SameSite=None;")
 
     
     # resp.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
@@ -59,8 +56,7 @@ def read_root(user_login:usermodel.login):
     if user_login.remember:
         resp.headers.append("set-cookie",f"refreshToken={user["refreshToken"]};"+
                                         f"Path=/;"+
-                                        f"SameSite=None;"+
-                                        f"Partitioned;")
+                                        f"SameSite=None;")
 
         # resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
     return resp
