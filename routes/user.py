@@ -40,14 +40,14 @@ def read_root(user_login:usermodel.login):
                                            "SameSite=None;"+
                                            "Secure;"+
                                            "Partitioned;"+
-                                           "domain=vercel.app;")                                          
+                                           "domain=codo-a-codo-mundo-deporte.vercel.app;")                                          
     resp.headers.append("set-cookie",f"localId={user["localId"]};"+
                                            "Max-Age=3600;"+
                                            "Path=/;"+
                                            "SameSite=None;"+
                                            "Secure;"+
                                            "Partitioned;"+
-                                           "domain=vercel.app;")                                          
+                                           "domain=codo-a-codo-mundo-deporte.vercel.app;")                                          
 
 
     resp.headers.append("set-cookie",f"idToken={user["idToken"]};"+
@@ -56,7 +56,7 @@ def read_root(user_login:usermodel.login):
                                            f"SameSite=None;"+
                                            f"Secure;"+
                                            f"Partitioned;"+
-                                           "domain=vercel.app;")                                          
+                                           "domain=codo-a-codo-mundo-deporte.vercel.app;")                                          
 
     
     # resp.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
@@ -68,7 +68,7 @@ def read_root(user_login:usermodel.login):
                                         f"SameSite=None;"+
                                         f"Secure;"+
                                         f"Partitioned;"+
-                                        "domain=vercel.app;")                                        
+                                        "domain=codo-a-codo-mundo-deporte.vercel.app;")                                        
 
         # resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
     return resp
