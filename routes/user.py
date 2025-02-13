@@ -39,20 +39,25 @@ def read_root(user_login:usermodel.login):
                                            "Path=/;"+
                                            "SameSite=None;"+
                                            "Secure;"+
-                                           "Partitioned;")                                           
+                                           "Partitioned;"+
+                                           "domain=.vercel.app;")                                          
     resp.headers.append("set-cookie",f"localId={user["localId"]};"+
                                            "Max-Age=3600;"+
                                            "Path=/;"+
                                            "SameSite=None;"+
                                            "Secure;"+
-                                           "Partitioned;")
+                                           "Partitioned;"+
+                                           "domain=.vercel.app;")                                          
+
 
     resp.headers.append("set-cookie",f"idToken={user["idToken"]};"+
                                            f"Max-Age=3600;"+
                                            f"Path=/;"+
                                            f"SameSite=None;"+
                                            f"Secure;"+
-                                           f"Partitioned;")
+                                           f"Partitioned;"+
+                                           "domain=.vercel.app;")                                          
+
     
     # resp.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
     # resp.set_cookie(key="localId",value=user["localId"], max_age=3600,secure=True,samesite="None")
@@ -62,7 +67,9 @@ def read_root(user_login:usermodel.login):
                                         f"Path=/;"+
                                         f"SameSite=None;"+
                                         f"Secure;"+
-                                        f"Partitioned;")
+                                        f"Partitioned;"+
+                                        "domain=.vercel.app;")                                        
+
         # resp.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
     return resp
 
