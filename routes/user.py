@@ -126,12 +126,32 @@ def refresh_token(request:Request):
         user=fb.auth.refresh(request.cookies.get("refreshToken"))
     except:
         raise HTTPException(status_code=401, detail="Ha ocurrido un error")
-    res=Response(status_code=200)
     usrdata=json.loads(find_user_by_id(user["userId"]).body)
-    res.set_cookie(key="usrnm",value=usrdata["data"]["username"], max_age=3600,secure=True,samesite="None")
 
-    res.set_cookie(key="localId",value=user["userId"], max_age=3600,secure=True,samesite="None")
-    res.set_cookie(key="idToken",value=user["idToken"], max_age=3600,secure=True,samesite="None")
-    res.set_cookie(key="refreshToken",value=user["refreshToken"],secure=True,samesite="None")
+    content={"usrnm":(f"usrnm={usrdata["data"]["username"]};"+
+                                           "Max-Age=3600;"+
+                                           "Path=/;"+
+                                           "SameSite=None;"+
+                                           "Secure;"+
+                                           "Partitioned;"),
 
-    return res
+                "localId":(f"localId={user["userId"]};"+
+                                           "Max-Age=3600;"+
+                                           "Path=/;"+
+                                           "SameSite=None;"+
+                                           "Secure;"+
+                                           "Partitioned;"),
+        
+                "idToken":(f"idToken={user["idToken"]};"+
+                                           f"Max-Age=3600;"+
+                                           f"Path=/;"+
+                                           f"SameSite=None;"+
+                                           f"Secure;"+
+                                           f"Partitioned;"),
+                "refreshToken":(f"refreshToken={user["refreshToken"]};"+
+                                 f"Path=/;"+
+                                 f"SameSite=None;"+
+                                 f"Secure;"+
+                                 f"Partitioned;")
+                                           }
+    return JSONResponse(content=content, status_code=200)
